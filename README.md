@@ -16,4 +16,4 @@ It recreates familiar Windows elements — desktop, taskbar, Start menu, system 
 ## 🚀 Getting Started
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/windows12web.git
+   git clone https://github.com/Matviy_7878/windows12web.git
