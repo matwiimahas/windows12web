@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Windows 12 Beta</title>
+  <link rel="icon" href="windows_12_logo__variant_2__by_sextothepowerpointer_dj97nm1-pre.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <img id="logo" src="./windows_12_logo__variant_2__by_sextothepowerpointer_dj97nm1-pre.png" alt="Windows 12 Logo">
+    <div id="loader">
+      <div class="progress-bar">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Login screen -->
+  <div id="login-screen">
+    <div class="login-box">
+      <img class="login-avatar" src="./user (1).png" alt="User">
+      <div class="login-name">User</div>
+      <button id="login-button" class="login-btn">Log-in</button>
+    </div>
+    <div class="buttons">
+      <button class="restart-btn" onclick="location.href='./restartIndex.html'">🔄</button>
+      <button class="shutdown-btn" onclick="location.href='./shutdownIndex.html'">⏻</button>
+    </div>
+  </div>
+
+  <!-- Desktop -->
+  <div id="desktop">
+    <div class="icon" id="this-pc">
+      <img src="./3d-computer.png" alt="This PC">
+      <span>This PC</span>
+    </div>
+    <div id="edge-icon" class="desktop-icon">
+      <img src="./edge.png" alt="Edge">
+      <span>Microsoft Edge</span>
+    </div>
+    <div id="about-icon" class="desktop-icon">
+      <img src="./info.png" alt="About">
+      <span>About</span>
+    </div>
+    <div id="settings-icon" class="desktop-icon">
+      <img src="./settings.png" alt="Settings">
+      <span>Settings</span>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div id="taskbar">
+    <div id="start-button"><img src="./windows_12_logo__variant_2__by_sextothepowerpointer_dj97nm1-pre.png" alt="Start" width="32"></div>
+    <div id="taskbar-programs">
+      <ul id="settings-context" class="context-menu">
+        <li id="pin-taskbar">📌 Pin</li>
+        <li id="close-window">❌ Close Window</li>
+      </ul>
+    </div>
+    <div id="system-icons">
+      <span id="wifi" class="tray">🛜</span>
+      <span id="sound" class="tray">🔇</span>
+      <span id="battery" class="tray">🔋</span>
+      <span id="clock"></span>
+    </div>
+  </div>
+
+    <div class="popup" id="popupMenu">
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button id="wifi-turn"><span>🛜</span><span class="status">ON</span></button>
+        <button id="btToggle"><span>📱</span><span class="status">OFF</span></button>
+        <button id="airToggle"><span>✈️</span><span class="status">OFF</span></button>
+        <button id="powerToggle"><span>🔋</span><span class="status">OFF</span></button>
+        <button id="nightToggle"><span>🌙</span><span class="status">OFF</span></button>
+        <button id="hotspotToggle"><span>📶</span><span class="status">OFF</span></button>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <div class="control-item">
+          <label>🔊 Volume</label>
+          <input type="range" id="volume-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-item">
+          <label>💡 Brightness</label>
+          <input type="range" id="brightness-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-item">
+          <label>🔋 Battery</label>
+          <div id="battery-info">100%</div>
+        </div>
+        <button id="settings-btn">⚙️ All settings</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Start Menu -->
+  <div id="start-menu">
+    <div class="start-search">
+      <input type="text" placeholder="Type here to search" disabled>
+    </div>
+    <div class="pinned-apps">
+      <h3>Pinned</h3>
+      <div class="app-grid">
+        <div class="app-item" id="edge-start">
+          <img src="./edge.png" alt="Edge">
+          <span>Edge</span>
+        </div>
+        <div class="app-item" id="settings-start">
+          <img src="./settings.png" alt="Settings">
+          <span>Settings</span>
+        </div>
+        <div class="app-item" id="about-start" onclick="openAbout()">
+          <img src="./info.png" alt="About">
+          <span>About</span>
+        </div>
+      </div>
+    </div>
+    <div class="recommended">
+      <h3>Recommended</h3>
+      <p>No recommendations</p>
+    </div>
+    <div class="user">
+      <img src="./user (1).png" alt="User">
+      <span>Hello User!</span>
+    </div>
+    <div class="power-options">
+      <div class="program" id="shutdown">⏻ Shut down</div>
+      <div class="program" id="restart">🔄 Restart</div>
+      <div class="program" id="logout">🚪 Log out</div>
+    </div>
+  </div>
+
+  <div id="settings-window" class="window">
+    <div class="title-bar">
+      <span class="title">⚙️ Settings</span>
+      <div class="window-buttons">
+        <button class="min">–</button>
+        <button class="max">□</button>
+        <button class="close">×</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="settings-sidebar">
+        <div class="settings-category active" data-category="personalization">Personalisation</div>
+        <div class="settings-category" data-category="system">System</div>
+      </div>
+      <div class="settings-content">
+        <div id="personalization-content" class="category-content active">
+          <h2>Personalisation</h2>
+          
+          <!-- Головний колір -->
+          <div class="setting-group">
+            <label for="accent-color">Main color:</label>
+            <input type="color" id="accent-color" value="#0078d7">
+          </div>
+
+          <h2>Background</h2>
+
+
+          <div class="wallpaper-grid">
+            <img src="1_2.png" alt="Wallpaper 1" class="wallpaper-option">
+            <img src="2_2.png" alt="Wallpaper 2" class="wallpaper-option">
+            <img src="3_2.png" alt="Wallpaper 3" class="wallpaper-option">
+            <img src="4.jpg" alt="Wallpaper 4" class="wallpaper-option">
+            <img src="5.jpg" alt="Wallpaper 5" class="wallpaper-option">
+            <img src="6.jpg" alt="Wallpaper 6" class="wallpaper-option">
+            <img src="7.jpg" alt="Wallpaper 7" class="wallpaper-option">
+            <img src="8.jpg" alt="Wallpaper 8" class="wallpaper-option">
+          </div>
+
+
+
+          <!-- Зображення робочого столу -->
+          <div class="setting-group">
+            <label for="wallpaper">Custom image:</label>
+            <input type="file" id="wallpaper" accept="image/*">
+          </div>
+
+          <!-- Живий прев’ю -->
+          <div id="preview">
+            <div class="preview-desktop">
+              <div class="preview-taskbar"></div>
+              <div class="preview-start"></div>
+            </div>
+          </div>
+        </div>
+        <div id="system-content" class="category-content">
+          <h2>System</h2>
+          <div class="system-subcategories">
+            <div class="subcategory active" data-sub="display">Display</div>
+            <div class="subcategory" data-sub="sound">Sound</div>
+            <div class="subcategory" data-sub="notifications">Notifications</div>
+          </div>
+          <div id="display-sub" class="sub-content active">
+            <h3>Display</h3>
+            <div class="setting-group">
+              <label for="brightness">Brightness:</label>
+              <input type="range" id="brightness" min="0" max="100" value="50">
+            </div>
+            <div class="setting-group">
+              <label for="night-light">Night light:</label>
+              <input type="checkbox" id="night-light">
+            </div>
+            <div class="setting-group">
+              <label for="scale">Scale:</label>
+              <select id="scale">
+                <option value="100">100%</option>
+                <option value="125">125%</option>
+                <option value="150">150%</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label for="resolution">Resolution:</label>
+              <select id="resolution">
+                <option value="1920x1080">1920x1080</option>
+                <option value="1366x768">1366x768</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label for="orientation">Orientation:</label>
+              <select id="orientation">
+                <option value="landscape">Landscape</option>
+                <option value="portrait">Portrait</option>
+              </select>
+            </div>
+            <p>Multiple displays and HDR not available.</p>
+          </div>
+          <div id="sound-sub" class="sub-content">
+            <h3>Sound</h3>
+            <div class="setting-group">
+              <label for="volume">Volume:</label>
+              <input type="range" id="volume" min="0" max="100" value="50">
+            </div>
+            <div class="setting-group">
+              <label for="mono-audio">Mono audio:</label>
+              <input type="checkbox" id="mono-audio">
+            </div>
+            <div class="setting-group">
+              <label for="input-volume">Input volume:</label>
+              <input type="range" id="input-volume" min="0" max="100" value="50">
+            </div>
+            <div class="setting-group">
+              <label>Volume mixer:</label>
+              <button id="volume-mixer">Open Mixer</button>
+            </div>
+          </div>
+          <div id="notifications-sub" class="sub-content">
+            <h3>Notifications</h3>
+            <div class="setting-group">
+              <label for="notifications-toggle">Notifications:</label>
+              <input type="checkbox" id="notifications-toggle" checked>
+            </div>
+            <div class="setting-group">
+              <label for="do-not-disturb">Do not disturb:</label>
+              <input type="checkbox" id="do-not-disturb">
+            </div>
+            <div class="setting-group">
+              <label for="auto-dnd">Auto DND with time:</label>
+              <input type="checkbox" id="auto-dnd">
+            </div>
+            <div class="setting-group">
+              <label for="focus">Focus:</label>
+              <select id="focus">
+                <option value="off">Off</option>
+                <option value="priority">Priority only</option>
+                <option value="alarms">Alarms only</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Вікно About -->
+  <div id="about-window" class="window" style="display:none;">
+    <div class="title-bar">
+      <span class="title">ℹ️ About Win12 Web version</span>
+      <div class="window-buttons">
+        <button class="min">–</button>
+        <button class="max">□</button>
+        <button class="close">×</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <nav class="tabs">
+        <button data-tab="intro">Introduction</button>
+        <button data-tab="updates">Update Record</button>
+        <button data-tab="coming">Coming Updates</button>
+        <button data-tab="contact">Contact Us</button>
+        <button data-tab="developers">Developers only</button>
+      </nav>
+      <div id="about-intro" class="tab-content">
+        <h2>Introduction</h2>
+        <p>
+          <strong>Windows 12 Web version</strong> — is an experimental operating system
+          created to demonstrate a modern Windows interface in a web environment.
+          It reproduces familiar elements: desktop, taskbar, Start menu,
+          system applications, and animation effects.
+        </p>
+        <p>
+          The main goal of the project is to show how the classic Windows experience can be
+          implemented in a browser. Basic features are available here: opening and closing
+          windows, switching between them, context menus, pinning to the taskbar,
+          as well as system applications like <em>Settings</em> and <em>About</em>.
+        </p>
+        <p>
+          <strong>Features:</strong>
+          <ul>
+            <li>Modern design in Windows 11/12 style</li>
+            <li>Taskbar with search, system indicators, and icons</li>
+            <li>Start menu with access to applications</li>
+            <li>Animations for opening, minimizing, and maximizing windows</li>
+            <li>Ability to maintain a changelog in the <em>Update Record</em> tab</li>
+          </ul>
+        </p>
+        <p>
+          This application is part of a conceptual system that allows users
+          to experience the atmosphere of Windows without installing an OS — directly in the browser.
+        </p>
+      </div>
+      <div id="about-updates" class="tab-content" style="display:none;">
+        <h2>Update Record</h2>
+        <ul id="update-log">
+          <li>27.02.2026 (V0.1.0)— Added Beta of Win12 Web version.</li>
+          <li>27.03.2026 (V0.2.0)— Added 8 System wallpapers and fixed About App, Added Coming Updates tab to About window, Fixed taskbar.</li>
+          <li>04.04.2026 (V0.3.0)— Added Scale animation for window opening (combined with Fade), Hover effects to system tray icons, System tray menu, Snap Assist fixed, New Contact us category in About app.</li>
+          <li>10.04.2026 (V0.4.0)— Settings updated with new System section. New app: Edge. Desktop selecting and desktop folders. More animations, New welcome messange, Other...</li>
+        </ul>
+      </div>
+      <div id="about-coming" class="tab-content" style="display:none;">
+        <h2>Coming Updates</h2>
+        <p>Here are the upcoming features planned for Windows 12 Web version:</p>
+        <ul>
+          <h3>V0.5.0</h3>
+          <h4>Features</h4>
+          <li>System Settings Category: Added a new System section in Settings including subcategories for Focus, Battery and Power, and Storage.</li>
+          <li>Copilot Integration: Copilot is now treated as a system application with shortcuts on the desktop, quick access in the Start Menu.</li>
+          <h4>Improvements</h4>
+          <li>Search in Start Menu and Settings and after start button</li>
+          <h4>Bugs Fixed</h4>
+          <li>Not specified. Try to find them and report it in Contact us category!</li>
+          <p>Public Release Date: April 28, 2026</p>
+        </ul>
+      </div>
+      <div id="about-contact" class="tab-content" style="display:none;">
+        <h2>Contact Us</h2>
+        <p>What's your name and what is your question?</p>
+        <div style="margin: 20px 0;">
+          <label for="contact-username">Your Gamejolt Username:</label>
+          <input type="text" id="contact-username" placeholder="Enter your username" style="width: 100%; padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px;">
+          
+          <label for="contact-message">Message text:</label>
+          <textarea id="contact-message" placeholder="Enter your message" style="width: 100%; padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; height: 100px; font-family: Arial, sans-serif;"></textarea>
+          
+          <button id="send-message-btn" style="width: 100%; padding: 10px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">Send</button>
+        </div>
+      </div>
+      <div id="about-developers" class="tab-content" style="display:none;">
+        <h2>Developers Only</h2>
+        <p>Known Issues and Bugs:</p>
+        <ul id="known-bugs-list" style="list-style: none; padding: 0;">
+          <li style="padding: 8px; background: #f0f0f0; margin: 5px 0; border-radius: 4px; border-left: 3px solid var(--accent-color);">
+            <strong>No bugs reported yet</strong> - Check back later!
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edge window -->
+  <div id="edge-window" class="window" style="display:none;">
+    <div class="title-bar">
+      <span class="title">🌐 Microsoft Edge</span>
+      <div class="window-buttons">
+        <button class="min">–</button>
+        <button class="max">□</button>
+        <button class="close">×</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <div class="edge-toolbar" style="display:flex; gap:8px; padding:8px; align-items:center;">
+        <select class="edge-site-select" style="padding:8px; border-radius:6px;">
+          <option value="https://www.wikipedia.org">Wikipedia</option>
+          <option value="https://www.mozilla.org">Mozilla</option>
+          <option value="https://www.bing.com">Bing</option>
+          <option value="https://matviycoderdev.neocities.org/GoogleSearch.html">Google</option>
+        </select>
+        <input class="edge-url" placeholder="Search or enter web address" style="flex:1; padding:8px; border-radius:6px; border:1px solid rgba(0,0,0,0.1);">
+        <button class="edge-open">Open</button>
+        <button class="edge-refresh">⟳</button>
+      </div>
+      <div class="edge-body" style="padding:0; height:400px;">
+        <iframe id="edge-iframe" sandbox="allow-forms allow-popups allow-scripts" src="about:blank" style="width:100%; height:100%; border:none; border-radius:0 0 6px 6px;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Startup Sound -->
+  <audio id="startup-sound" src="./windows-12.mp3" preload="auto"></audio>
+
+  <!-- Вікно повідомлення -->
+  <div id="message-container"></div>
+
+  <style>
+  .message-window {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 360px;
+    background: rgba(40,40,40,0.95);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+    animation: scaleIn 0.3s ease-out;
+    z-index: 9999;
+  }
+  .message-window .title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--accent-color);
+    padding: 6px 12px;
+    font-weight: bold;
+  }
+  .message-window .content {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+  }
+  .message-window .content img {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+  }
+  .message-window button.close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .message-window.info { --accent-color: #0078d7; }
+  .message-window.warn { --accent-color: #ff9800; }
+  .message-window.error { --accent-color: #d32f2f; }
+  @keyframes scaleIn { from {transform:scale(0.8);opacity:0;} to {transform:scale(1);opacity:1;} }
+  </style>
+
+  <script>
+
+      function makeDraggable(winElement) {
+      const titleBar = winElement.querySelector(".title-bar");
+      let offsetX = 0, offsetY = 0, isDragging = false;
+
+      titleBar.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - winElement.offsetLeft;
+        offsetY = e.clientY - winElement.offsetTop;
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+      });
+
+      function onMouseMove(e) {
+        if (!isDragging) return;
+        winElement.style.left = (e.clientX - offsetX) + "px";
+        winElement.style.top = (e.clientY - offsetY) + "px";
+        winElement.style.position = "fixed"; // щоб завжди було поверх
+      }
+
+      function onMouseUp() {
+        isDragging = false;
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+      }
+    }
+
+    function showMessage(type, text) {
+      const container = document.getElementById("message-container");
+      const win = document.createElement("div");
+      win.className = "message-window " + type;
+      win.innerHTML = `
+        <div class="title-bar">
+          <span>${type === "info" ? "Info" : type === "warn" ? "Warning" : "Error"}</span>
+          <button class="close-btn" onclick="this.closest('.message-window').remove()">✖</button>
+        </div>
+        <div class="content">
+          <img src="${type}.png" alt="${type}">
+          <p>${text}</p>
+        </div>
+      `;
+      container.appendChild(win);
+
+      // звук
+      const audio = new Audio(type + ".mp3");
+      audio.play();
+    }
+
+      // перехоплення console
+      ["log","warn","error"].forEach(method => {
+        const original = console[method];
+        console[method] = function(...args) {
+          original.apply(console, args);
+          const type = method === "log" ? "info" : method === "warn" ? "warn" : "error";
+          setTimeout(() => {
+            showMessage(type, args.join(" "));
+            const errorWin = document.querySelector(".message-window");
+            makeDraggable(errorWin);
+          }, 1000);
+        };
+      });
+  </script>
+
+  <div id="overlay">
+    <div class="welcome-window">
+      <div class="title-bar">
+        <span>Windows 12 Web version</span>
+        <button class="close-btn" onclick="hideWelcome()">✖</button>
+      </div>
+      <div class="content">
+        <p>Windows 12 for the web is an open source project,
+We hope to allow users to experience Windows 12 in advance on the Internet,
+Content may not be consistent with the official version of Windows 12.
+Use standard web technologies such as HTML, CSS and JS
+This project is in no way affiliated with Microsoft and should not be confused with Microsoft operating systems or products,
+This is not a Windows365 cloud PC either
+Microsoft, Windows and other demonstration products included in this project are trademarks of Microsoft Corporation
+Google, Android and other demonstration products in this project are trademarks of Google Inc.</p>
+        <div class="buttons">
+          <button onclick="acceptWelcome()">More</button>
+          <button onclick="hideWelcome()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+* {
+    position: fixed;
+    inset: 0;
+    background: black;
+    justify-content: center;
+    align-items: center;
+    cursor:none;
+}
+
+.h2 {
+    font-family: Arial, sans-serif;
+    color: #ddd;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    display: flex;
+}
+
+.progress {
+    width: 300px;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}

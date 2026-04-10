@@ -1,0 +1,968 @@
+* {
+  user-select: none;
+}
+
+body.noscroll {
+  overflow: hidden;
+}
+
+button {
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: var(--accent-color);
+  transform: scale(1.05);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* блокує прокрутку */
+}
+
+#desktop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* щоб не було внутрішнього скролу */
+  background: url("./1_2.png") no-repeat center center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  -ms-interpolation-mode: nearest-neighbor;
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  pointer-events: none;
+}
+
+/* Loading screen */
+#loading-screen {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: purple;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  animation: loadingFadeIn 1s ease-in;
+}
+#logo { width:160px; margin-bottom:270px; animation: logoPulse 2s ease-in-out infinite;}
+#loader {
+  width:400px; height:24px;
+  background: rgba(255,255,255,0.2);
+  border-radius:12px; overflow:hidden;
+  box-shadow:0 0 12px rgba(255,255,255,0.4);
+  transform: loaderSlideIn 2s ease-out;
+  animation: Float 2s ease-in-out infinite;
+  text-align: center; line-height: 24px; color: #000000; font-size: 12px; font-weight: bold;
+}
+.progress-bar { height:100%; width:0; background:linear-gradient(90deg,#fff,#ddd); animation: loadProgress 8s ease forwards;}
+@keyframes loadingFadeIn { from{opacity:0;} to{opacity:1;} }
+@keyframes logoPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+@keyframes loaderSlideIn { from{transform:translateY(20px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+@keyframes loadProgress { from{width:0;} to{width:100%;} }
+@keyframes Float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+
+/* Desktop */
+.icon { position:absolute; top:10px; left:10px; text-align:center; cursor:pointer; padding: 10px; color: white; transition: all 0.2s ease;}
+.icon:hover {background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); border-radius:12px;}
+.icon img { width:64px; height:64px; display: block; margin-bottom: 4px;}
+.icon span { display:block; color:white; margin-top:4px; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);}
+.icon.selected { box-shadow: 0 0 0 2px rgba(255,255,255,0.9); border-radius: 8px; background: rgba(255,255,255,0.15);}
+
+.icon {
+  position: absolute;
+  text-align: center;
+  cursor: grab;
+}
+.icon:active {
+  cursor: grabbing;
+}
+
+.desktop-icon { position:absolute; text-align:center; cursor:pointer; padding: 10px; color: white; transition: all 0.2s ease;}
+.desktop-icon:hover {background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); border-radius:12px;}
+.desktop-icon img { width:64px; height:64px; display: block; margin-bottom: 4px;}
+.desktop-icon span { display:block; color:white; margin-top:4px; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);}
+.desktop-icon.selected { box-shadow: 0 0 0 2px rgba(255,255,255,0.9); border-radius: 8px; background: rgba(255,255,255,0.15);}
+.desktop-icon {
+  cursor: grab;
+}
+.desktop-icon:active {
+  cursor: grabbing;
+}
+
+#edge-icon { top: 10px; left: 10px; }
+#about-icon { top: 110px; left: 10px; }
+#settings-icon { top: 210px; left: 10px; }
+#this-pc { top: 310px; left: 10px; }
+
+/* Taskbar */
+#taskbar {
+  position:fixed; bottom:20px; left:2.5%;
+  width:95%; height:50px;
+  background:rgba(255,255,255,0.2); backdrop-filter:blur(10px);
+  border-radius:12px; display:none;
+  justify-content:center; align-items:center; padding:0 20px;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+#taskbar.fullscreen {
+  bottom: -2px;       /* трохи нижче */
+  height: 72px;       /* трохи більший */
+  width: 100%;        /* повна ширина */
+  left: 0;            /* починається з самого краю */
+}
+
+#settings-task:active {
+  transform: translateY(-3px);
+  transition: transform 0.2s ease;
+}
+
+#start-button {cursor:pointer; padding: 6px 9px; transition: all 0.2s ease;}
+#start-button:hover {backdrop-filter:blur(10px); border-radius:3px;}
+#start-button:active {backdrop-filter:blur(12px); border-radius:6px;}
+#system-icons span { margin-left:12px; justify-content: left; align-items: center;}
+
+/* Start Menu */
+#start-menu {
+  position:fixed; bottom:80px; left:50%;
+  width:650px; background: rgba(0,0,0,0.8); color:white;
+  border-radius:12px; padding:20px; display:none;
+  justify-content:right; align-items:center;
+  transform: translate(-50%, 50px);
+  transition: 0.3s ease;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  z-index: 1;
+  flex-direction: column;
+  max-height: 620px;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.start-search { margin-bottom: 10px;}
+.start-search input { width: 100%; padding: 8px; border-radius: 4px; border: none; background: rgba(255,255,255,0.95); color: #333;}
+.pinned-apps { margin-bottom: 10px;}
+.pinned-apps h3 { margin: 0 0 8px; font-size: 13px; color: rgba(255,255,255,0.8);}
+.recommended h3 { margin: 0 0 4px; font-size: 13px; color: rgba(255,255,255,0.8);}
+.recommended p { margin: 0; font-size: 12px; color: rgba(255,255,255,0.6);}
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px;}
+.app-item { display: flex; flex-direction: column; align-items: center; padding: 12px; cursor: pointer; border-radius: 8px; transition: all 0.2s ease;}
+.app-item img { width: 48px; height: 48px; margin-bottom: 8px;}
+.app-item span { font-size: 12px; text-align: center; white-space: normal; word-break: break-word;}
+.app-item:hover { background: rgba(255,255,255,0.15); transform: scale(1.05);}
+.app-item:active { transform: scale(0.95);}
+.recommended { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);}
+.user { display:flex; align-items:center; margin-bottom:16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);}
+.user img { width:40px; height:40px; border-radius:50%; margin-right:8px; }
+.user span { font-size: 13px;}
+.power-options { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 12px; display: flex; gap: 8px;}
+.power-options .program { flex: 1; padding: 8px; cursor: pointer; border-radius: 6px; text-align: center; font-size: 12px; transition: all 0.2s ease;}
+.power-options .program:hover { background: rgba(255,255,255,0.1); transform: scale(1.02);}
+#start-menu.show {
+  display: flex;
+  transform: translate(-50%, 0);
+  opacity: 0.9;
+}
+
+#start-button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+#start-button:active {
+  transform: scale(0.95); /* ефект натискання */
+  background: rgba(255,255,255,0.3);
+}
+
+#start-button.active {
+  background: rgba(0,120,215,0.4);
+  box-shadow: 0 0 16px rgba(0,120,215,0.8);
+}
+
+#start-button:hover {
+  box-shadow: 0 0 12px rgba(0,120,215,0.6); /* синє світіння */
+}
+
+/* Вікно Settings */
+.window {
+  position:absolute; top:150px; left:150px; width:400px; 
+  background:#eee; border:1px solid #aaaaaaa2; border-radius:6px;
+  backdrop-filter: blur(8px);
+  display:none;
+  transition: all 0.13s ease;
+  resize: none;       /* дозволяє змінювати розмір */
+  overflow: auto;     /* щоб контент не обрізався */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  z-index: 0;
+}
+.title-bar { background: var(--accent-color); padding:6px; display:flex; justify-content:space-between; align-items:center; backdrop-filter: blur(10px);}
+.title-bar .title { font-weight:bold; opacity: 1;}
+.window-buttons button { margin-left:4px; backdrop-filter: blur(6px); opacity: 0.7;}
+.content { padding:12px; display: flex;}
+.settings-sidebar { width: 200px; border-right: 1px solid #ccc; padding-right: 10px;}
+.settings-category { padding: 10px; cursor: pointer; border-radius: 4px;}
+.settings-category:hover { background: rgba(0,120,215,0.1);}
+.settings-category.active { background: var(--accent-color); color: white;}
+.settings-content { flex: 1; padding-left: 10px;}
+.category-content { display: none;}
+.category-content.active { display: block;}
+.system-subcategories { display: flex; margin-bottom: 20px;}
+.subcategory { padding: 8px 12px; cursor: pointer; border-radius: 4px; margin-right: 10px;}
+.subcategory:hover { background: rgba(0,120,215,0.1);}
+.subcategory.active { background: var(--accent-color); color: white;}
+.sub-content { display: none;}
+.sub-content.active { display: block;}
+
+/* Анімації */
+.show-window { animation: scaleIn 0.4s ease forwards, fadeIn 0.4s ease forwards; }
+.hide-window { animation: scaleOut 0.4s ease forwards, fadeOut 0.4s ease forwards; }
+@keyframes fadeIn { from{opacity:0;} to{opacity:0.9;} }
+@keyframes fadeOut { from{opacity:0.9;} to{opacity:0;} }
+
+/* Екран логону */
+#login-screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  animation: loginFadeIn 1s ease-in;
+}
+#login-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./5d22ba152043293.Y3JvcCwyNzYxLDIxNjAsNTQwLDA – копія.png") no-repeat center/cover;
+  filter: blur(6px);
+  transform: scale(1.03);
+  z-index: 0;
+  animation: bgZoom 1s ease-out;
+}
+.login-box {
+  position: relative;
+  z-index: 1;
+  width: 40%;
+  max-width: 640px;
+  height: 40%;
+  max-height: 640px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+  padding: 20px;
+  text-align: center;
+  animation: loginBoxSlideUp 1s ease-out;
+}
+.login-avatar { width:96px; height:96px; border-radius:50%; object-fit:cover; margin-bottom:16px; animation: avatarBounce 1s ease-out;}
+.login-name { color: #ffffff; font-size:1.4rem; margin-bottom:18px; animation: textFadeIn 1s ease-out;}
+.login-btn { background:#fff; color:#000; border:none; padding:10px 24px; border-radius:8px; cursor:pointer; font-weight:600; position:fixed; bottom: 20px; left: 42%; transition: 0.3s; animation: buttonSlideIn 1s ease-out;}
+.login-btn:hover { opacity:0.95; transform: scale(1.05);}
+
+@keyframes loginFadeOut { from{opacity:1;} to{opacity:0;} }
+@keyframes loginBoxSlideDown { from{transform:translateY(0); opacity:1;} to{transform:translateY(50px); opacity:0;} }
+@keyframes avatarFadeOut { from{transform:scale(1); opacity:1;} to{transform:scale(0.8); opacity:0;} }
+@keyframes textFadeOut { from{opacity:1; transform:translateY(0);} to{opacity:0; transform:translateY(-10px);} }
+@keyframes buttonFadeOut { from{transform:translateY(0); opacity:1;} to{transform:translateY(-20px); opacity:0;} }
+
+#login-screen.fade-out {
+  animation: loginFadeOut 0.5s ease-in;
+}
+#login-screen.fade-out .login-box {
+  animation: loginBoxSlideDown 0.5s ease-in;
+}
+#login-screen.fade-out .login-avatar {
+  animation: avatarFadeOut 0.5s ease-in;
+}
+#login-screen.fade-out .login-name {
+  animation: textFadeOut 0.5s ease-in;
+}
+#login-screen.fade-out .login-btn {
+  animation: buttonFadeOut 0.5s ease-in;
+}
+
+/* Поява панелі задач знизу */
+.show-taskbar { animation: slideUp 0.35s ease forwards; }
+@keyframes slideUp { from{ transform: translateY(40px); opacity:0; } to{ transform: translateY(0); opacity:1; } }
+
+/* Анімація збільшення */
+.animate-maximize {
+  animation: maximize 0.3s ease forwards;
+}
+
+@keyframes maximize {
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Анімація зменшення */
+.animate-restore {
+  animation: restore 0.3s ease forwards;
+}
+
+@keyframes restore {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.4);
+  }
+}
+
+.restart-btn:hover {
+    transform: scale(1.1);
+}
+
+.shutdown-btn:hover {
+    transform: scale(1.1);
+}
+
+.restart-btn {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    font-size: 60px;
+    background-color: transparent;
+    position: fixed;
+    top: 83%;
+    left: 90%;
+    color: #ddd;
+}
+
+.shutdown-btn {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    margin-left: 20px;
+    font-size: 60px;
+    background-color: transparent;
+    position: fixed;
+    top: 83%;
+    left: 80%;
+    color: #ddd;
+}
+
+.selection-box {
+  position: absolute;
+  border: 2px solid rgba(0, 120, 215, 0.8);
+  background: rgba(0, 120, 215, 0.2);
+  pointer-events: none;
+  display: none;
+  border-radius: 6px;
+}
+
+.icon.selected,
+.desktop-icon.selected {
+  box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.9);
+  background: rgba(0, 120, 215, 0.18);
+}
+
+.group-folder-overlay {
+  position: fixed;
+  z-index: 10000;
+  background: rgba(23, 23, 23, 0.96);
+  color: white;
+  border-radius: 16px;
+  padding: 14px;
+  min-width: 240px;
+  max-width: 320px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  display: none;
+}
+
+.group-folder-overlay.active {
+  display: block;
+  animation: scaleIn 0.2s ease-out forwards;
+}
+
+.group-folder-overlay h4 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.group-folder-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.group-folder-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 56px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.group-folder-icon img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
+}
+
+.group-folder-overlay button {
+  margin-top: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--accent-color);
+  color: white;
+  cursor: pointer;
+}
+
+#start-menu .program {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease; /* плавний ефект */
+}
+
+#start-menu .program:hover {
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.05); /* легке збільшення */
+}
+
+#start-menu .program:active {
+  transform: scale(0.95); /* ефект натискання */
+}
+
+.setting-group {
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+#settings-window .content {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
+/* Використання змінної кольору */
+:root {
+  --accent-color: #0078d7; /* стандартний синій */
+}
+
+#start-button.active {
+  background: var(--accent-color);
+  box-shadow: 0 0 16px var(--accent-color);
+}
+
+.window .title-bar {
+  background: var(--accent-color);
+  color: white;
+}
+
+#preview {
+  margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  width: 200px;
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.8s ease, background-color 0.8s ease;
+}
+
+.preview-taskbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: var(--accent-color);
+  transition: background 0.5s ease; /* плавна зміна кольору */
+}
+
+.preview-desktop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-start {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 4px;
+}
+
+.window.minimize {
+  animation: minimizeAnim 0.4s forwards;
+}
+
+@keyframes minimizeAnim {
+  to {
+    opacity: 0;
+    transform: translateY(100%) scale(0.8);
+  }
+}
+
+.context-menu {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.2s ease;
+}
+
+.context-menu.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.toast {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.context-menu {
+  position: fixed;
+  background: rgba(40,40,40,0.9);
+  color: white;
+  list-style: none;
+  padding: 6px 0;
+  border-radius: 6px;
+  display: none;
+  z-index: 9999;
+}
+
+.context-menu li {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.context-menu li:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.wallpaper-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.wallpaper-option {
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border 0.2s ease;
+  pointer-events: auto;
+}
+
+.wallpaper-option:hover {
+  transform: scale(1.05);
+  border: 2px solid var(--accent-color);
+}
+
+#start-button {
+  position: absolute;
+  left: 47%;
+}
+
+
+#system-icons {
+  margin-left: auto; /* відсуває іконки вправо */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#start-button {
+  transform-origin: center bottom;
+  transition: transform 0.2s ease;
+  justify-content: center;
+}
+
+#start-button:hover {
+  transform: scale(1.1);
+}
+
+#start-button:active {
+  transform: scale(0.95);
+}
+
+.tray {
+  cursor: pointer;
+  filter: brightness(0.8);
+  transition: filter 0.2s;
+}
+.tray:hover {
+  filter: brightness(1.2); /* Hover‑ефект */
+}
+
+/* Анімація відкриття */
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* Анімація закриття */
+@keyframes scaleOut {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(0.8); opacity: 0; }
+}
+
+/* Спливаюче меню */
+.popup {
+  position: absolute;
+  bottom: 80px;
+  right: 90px;
+  background: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  display: none;
+  width: 300px;
+  height: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.quick-actions button {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quick-actions button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.status {
+  font-size: 10px;
+  margin-top: 2px;
+  color: #fff;
+}
+
+.controls {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding-top: 10px;
+}
+
+.control-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.control-item label {
+  font-size: 14px;
+}
+
+.control-item input[type="range"] {
+  width: 120px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px;
+  outline: none;
+}
+
+.control-item input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#battery-info {
+  font-size: 14px;
+  color: #fff;
+}
+
+#settings-btn {
+  width: 100%;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.quick-actions button.active {
+  background: var(--accent-color);
+  color: white;
+}
+
+/* Коли показуємо */
+.popup.show {
+  display: block;
+  animation: scaleIn 0.2s ease-out forwards;
+}
+
+/* Коли ховаємо */
+.popup.hide {
+  animation: scaleOut 0.2s ease-in forwards;
+}
+
+
+/* Вікно програми */
+.app-window {
+  width: 300px;
+  height: 200px;
+  background: #eee;
+  border: 1px solid #aaa;
+  margin: 20px;
+  display: none;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.wifi-turn {
+  width: 20%;
+  padding: 10px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.wifi-list {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+  width: 40px;
+  padding: 10px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#btToggle {
+  width: 20%;
+  padding: 10px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#btList {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  width: 180px;
+  padding: 10px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#airToggle {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#btToggle {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#night-light {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Desktop folder (group) styles */
+.desktop-folder {
+  position: absolute;
+  width: 140px;
+  background: rgba(255,255,255,0.06);
+  color: white;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+  cursor: grab;
+  user-select: none;
+  z-index: 5;
+}
+.desktop-folder:active { cursor: grabbing; }
+.desktop-folder .folder-label { font-size: 13px; margin-bottom: 6px; text-align: center; }
+.desktop-folder .folder-thumbs { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
+.desktop-folder .folder-thumb { width:48px; text-align:center; }
+.desktop-folder .folder-thumb img { width:40px; height:40px; display:block; margin:0 auto 4px; }
+.desktop-folder .folder-thumb span { display:block; font-size:11px; color:#ddd; }
+
+.desktop-folder.open {
+  animation: folderOpen 0.3s ease-out forwards;
+}
+
+@keyframes folderOpen {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.desktop-folder.close {
+  animation: folderClose 0.3s ease-in forwards;
+}
+
+@keyframes folderClose {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(0.8); opacity: 0; }
+}
+
+.folder-toast.open {
+  animation: folderOpen 0.3s ease-out;
+}
+
+.folder-toast.close {
+  animation: folderClose 0.3s ease-in;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7); /* затемнення */
+  display: none; /* приховано за замовчуванням */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.welcome-window {
+  width: 400px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  overflow: hidden;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.welcome-window::close {
+  animation: scaleOut 0.3s ease-in;
+}
+
+.welcome-window .title-bar {
+  background: var(--accent-color);
+  color: white;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-window .content {
+  padding: 16px;
+  text-align: center;
+  justify-content: center;
+}
+
+.welcome-window .content p {
+  font-size: small;
+}
+
+.welcome-window .buttons {
+  margin-top: 20px;
+  display: block;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  bottom: 30%;
+  position: fixed;
+}
+
+.welcome-window button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--accent-color);
+  color: white;
+  transition: 0.2s;
+}
+
+.welcome-window button:hover {
+  transform: scale(1.05);
+}
+
+.welcome-window button:active {
+  transform: scale(0.95);
+}
