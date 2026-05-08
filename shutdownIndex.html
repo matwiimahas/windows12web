@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shutting Down...</title>
+    <link rel="stylesheet" href="./restartstyle.css">
+</head>
+<body>
+    <audio id="sound" src="./windows-12-shutdown.mp3" preload="auto"></audio>
+    <script>
+        const sound = document.getElementById('sound');
+        sound.play();
+        setTimeout(() => {
+            document.getElementById('bootText').textContent = "Shutting down...";
+        }, 3000);
+        setTimeout(() => {
+            document.getElementById('bootText').textContent = "";
+        }, 5000);     
+    </script>
+
+  <div id="bootScreen" class="text">
+      <h2 id="bootText" class="h2">Stopping programs...</h2>
+  </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black BSoD</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 5em;
+        }
+        p {
+            font-size: 1em;
+        }
+
+        h3 {
+            font-weight: normal;
+        }
+
+        .message-window {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 360px;
+        background: rgba(40,40,40,0.95);
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        overflow: hidden;
+        animation: scaleIn 0.3s ease-out;
+        z-index: 9999;
+        }
+        .message-window .title-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--accent-color);
+        padding: 6px 12px;
+        font-weight: bold;
+        }
+        .message-window .content {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        }
+        .message-window .content img {
+        width: 48px;
+        height: 48px;
+        margin-right: 12px;
+        }
+        .message-window button.close-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        }
+        .message-window.info { --accent-color: #0078d7; }
+        .message-window.warn { --accent-color: #ff9800; }
+        .message-window.error { --accent-color: #d32f2f; }
+        @keyframes scaleIn { from {transform:scale(0.8);opacity:0;} to {transform:scale(1);opacity:1;} }
+    </style>
+</head>
+<body>
+    <h1>😨</h1>
+    <h3>Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</h3>
+    <h4 id="progress">0% complete</h4>
+    <p>For more information about this issue and possible fixes, visit https://www.windows.com/stopcode</p>
+    <p>If you call a support person, give them this info:</p>
+    <p>Stop code: OS_HACKED_BY_FOLDER</p>
+
+    <audio autoplay>
+        <source src="error.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="message-container"></div>
+
+    <script>
+        if (window.location.hostname.includes("gamejolt.com")) {
+            let InGameJolt = true;
+            myCode();
+        } else {
+            let InGameJolt = false;
+        }
+
+        let InGameJolt = false;
+
+        function myCode() {
+            let gameID = "1023497";
+            let privateKey = "a03076b56a7350e9da4c7aa283246458";
+        }
+
+        if (InGameJolt) {
+          fetch(`https://api.gamejolt.com/api/game/v1_2/trophies/add-achieved/?game_id=${gameID}&username=${username}&user_token=${userToken}&trophy_id=296796`);
+        }
+        // Simulate the BSoD sound effect
+        const audio = new Audio('error.mp3');
+        audio.play();
+        // Simulate a restart after a few seconds
+        setTimeout(() => {
+            console.error("Boot failure: OS_HACKED_BY_0000_FOLDER");
+            setTimeout(() => {
+                console.error("Recovery failure: OS_HACKED_BY_0000_FOLDER");
+                setTimeout(() => {
+                    console.error("BIOS failure: OS_HACKED_BY_0000_FOLDER");
+                    setTimeout(() => {
+                        console.log("Starting strong windows automatic repair...");
+                        setTimeout(() => {
+                            window.open("automaticRepair.html", "_self");
+                        }, 2000);
+                    }, 5000);
+                }, 2000);
+            }, 2000);
+        }, 20000);
+        progress = 0;
+        const progressElement = document.getElementById('progress');
+        const interval = setInterval(() => {
+            progress += 1;
+            progressElement.textContent = `${progress}% complete`;
+            if (progress >= 100) {
+                clearInterval(interval);
+            }
+        }, 200);
+
+        function makeDraggable(winElement) {
+        const titleBar = winElement.querySelector(".title-bar");
+        let offsetX = 0, offsetY = 0, isDragging = false;
+
+        titleBar.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - winElement.offsetLeft;
+            offsetY = e.clientY - winElement.offsetTop;
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
+        });
+
+        function onMouseMove(e) {
+            if (!isDragging) return;
+            winElement.style.left = (e.clientX - offsetX) + "px";
+            winElement.style.top = (e.clientY - offsetY) + "px";
+            winElement.style.position = "fixed"; // щоб завжди було поверх
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
+        }
+        }
+
+        function showMessage(type, text) {
+        const container = document.getElementById("message-container");
+        const win = document.createElement("div");
+        win.className = "message-window " + type;
+        win.innerHTML = `
+            <div class="title-bar">
+            <span>${type === "info" ? "Info" : type === "warn" ? "Warning" : "Error"}</span>
+            <button class="close-btn" onclick="this.closest('.message-window').remove()">✖</button>
+            </div>
+            <div class="content">
+            <img src="${type}.png" alt="${type}">
+            <p>${text}</p>
+            </div>
+        `;
+        container.appendChild(win);
+
+        // звук
+        const audio = new Audio(type + ".mp3");
+        audio.play();
+        }
+
+        // перехоплення console
+        ["log","warn","error"].forEach(method => {
+            const original = console[method];
+            console[method] = function(...args) {
+            original.apply(console, args);
+            const type = method === "log" ? "info" : method === "warn" ? "warn" : "error";
+            setTimeout(() => {
+                showMessage(type, args.join(" "));
+                const errorWin = document.querySelector(".message-window");
+                makeDraggable(errorWin);
+            }, 1000);
+            };
+        });
+    </script>
+</body>
+</html>

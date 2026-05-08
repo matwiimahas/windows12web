@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSoD</title>
+    <style>
+        body {
+            background-color: #0078D7;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 5em;
+        }
+        p {
+            font-size: 1.5em;
+        }
+
+        h3 {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <h1>☹️</h1>
+    <h3>Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</h3>
+    <h4 id="progress">0% complete</h4>
+    <p>For more information about this issue and possible fixes, visit https://www.windows.com/stopcode</p>
+    <p>If you call a support person, give them this info:</p>
+    <p>Stop code: CRITICAL_PROCESS_DIED</p>
+
+    <audio autoplay>
+        <source src="warn.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        if (window.location.hostname.includes("gamejolt.com")) {
+            let InGameJolt = true;
+            myCode();
+        } else {
+            let InGameJolt = false;
+        }
+
+        let InGameJolt = false;
+
+        function myCode() {
+            let gameID = "1023497";
+            let privateKey = "a03076b56a7350e9da4c7aa283246458";
+        }
+        
+        if (InGameJolt) {
+          fetch(`https://api.gamejolt.com/api/game/v1_2/trophies/add-achieved/?game_id=${gameID}&username=${username}&user_token=${userToken}&trophy_id=296795`);
+        }
+        // Simulate the BSoD sound effect
+        const audio = new Audio('warn.mp3');
+        audio.play();
+        // Simulate a restart after a few seconds
+        setTimeout(() => {
+            window.open("index.html", "_self");
+        }, 20000);
+        progress = 0;
+        const progressElement = document.getElementById('progress');
+        const interval = setInterval(() => {
+            progress += 1;
+            progressElement.textContent = `${progress}% complete`;
+            if (progress >= 100) {
+                clearInterval(interval);
+            }
+        }, 200);
+    </script>
+</body>
+</html>

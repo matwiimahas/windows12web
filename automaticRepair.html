@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows 12 Strong Automatic Repair</title>
+  <style>
+    body {
+      font-family: Consolas, monospace;
+      background-color: #111;
+      color: #eee;
+      text-align: center;
+      padding: 50px;
+    }
+    #progressContainer {
+      width: 80%;
+      background-color: #333;
+      margin: 20px auto;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #progressBar {
+      width: 0%;
+      height: 30px;
+      background-color: #00aaff;
+      text-align: center;
+      line-height: 30px;
+      color: white;
+      transition: width 0.5s;
+    }
+    #repair {
+      display: none;
+    }
+    #stage {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    /* Loading screen */
+    #loading-screen {
+        position: fixed;
+        top:0; left:0; right:0; bottom:0;
+        background: purple;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
+    #logo { width:160px; margin-bottom:270px; animation: logoPulse 2s ease-in-out infinite;}
+    #loader {
+        width:400px; height:24px;
+        background: rgba(255,255,255,0.2);
+        border-radius:12px; overflow:hidden;
+        box-shadow:0 0 12px rgba(255,255,255,0.4);
+        transform: loaderSlideIn 2s ease-out;
+        animation: Float 2s ease-in-out infinite;
+        text-align: center; line-height: 24px; color: #000000; font-size: 12px; font-weight: bold;
+    }
+    .progress-bar { height:100%; width:0; background:linear-gradient(90deg,#fff,#ddd); animation: loadProgress 8s ease forwards;}
+    @keyframes loadingFadeIn { from{opacity:0;} to{opacity:1;} }
+    @keyframes logoPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+    @keyframes loaderSlideIn { from{transform:translateY(20px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+    @keyframes loadProgress { from{width:0;} to{width:100%;} }
+    @keyframes Float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <img id="logo" src="./windows_12_logo__variant_2__by_sextothepowerpointer_dj97nm1-pre.png" alt="Windows 12 Logo">
+        <div id="loader">
+        <div class="progress-bar">Preparing automatic repair...</div>
+        </div>
+    </div>
+
+    <div id="repair">
+        <h3>Windows 12 Strong Automatic Repair</h3>
+        <p>Automatic repair is diagnosing and fixing issues...</p>
+
+        <div id="progressContainer">
+            <div id="progressBar">0%</div>
+        </div>
+        <div id="stage">Starting repair...</div>
+    </div>
+
+
+
+  <script>
+    document.body.style.cursor = 'hidden';
+
+    let loader, loadingScreen, repair;
+
+    loader = document.querySelector('.progress-bar');
+    loadingScreen = document.getElementById('loading-screen');
+    repair = document.getElementById('repair');
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.body.style.cursor = 'default';
+            if (repair) repair.style.display = 'block';
+            updateProgress();
+        }, 8000);
+    });
+
+    const stages = [
+      "Diagnosing system issues...",
+      "Checking disk integrity...",
+      "Repairing corrupted files...",
+      "Restoring registry settings...",
+      "Finalizing repair..."
+    ];
+
+    let progress = 0;
+    let stageIndex = 0;
+
+    function updateProgress() {
+      progress += 20;
+      document.getElementById("progressBar").style.width = progress + "%";
+      document.getElementById("progressBar").textContent = progress + "%";
+
+      if (stageIndex < stages.length) {
+        document.getElementById("stage").textContent = stages[stageIndex];
+        stageIndex++;
+      }
+
+      if (progress < 100) {
+        setTimeout(updateProgress, 2000);
+      } else {
+        document.getElementById("stage").textContent = "Repair complete. We're restarting your PC.";
+        setTimeout(() => {
+          window.open("restartindex.html", "_self");
+        }, 2000);
+      }
+    }
+  </script>
+</body>
+</html>

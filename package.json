@@ -1,0 +1,12 @@
+{
+  "name": "windows-12-website",
+  "version": "1.0.0",
+  "description": "Windows 12 web simulator",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

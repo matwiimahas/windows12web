@@ -1,0 +1,17 @@
+* {
+    position: fixed;
+    inset: 0;
+    background: black;
+    justify-content: center;
+    align-items: center;
+    cursor:none;
+}
+
+.h2 {
+    font-family: Arial, sans-serif;
+    color: #ddd;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    display: flex;
+}

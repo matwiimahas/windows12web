@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NO OS DETECTED</title>
+    <style>
+        @font-face {
+            font-family: 'DOSFont';
+            src: url('fonts/PerfectDOSVGA437.woff') format('woff');
+        }
+
+        *{
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'DOSFont', monospace;
+            background-color: #000;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+        }
+        h1 {
+            font-size: 1em;
+            font-weight: normal;
+        }
+        p {
+            font-size: 1em;
+        }
+
+        h3 {
+            font-weight: normal;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            background: lime;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>NO OS DETECTED</h1>
+    <p>The system could not detect a valid operating system.</p>
+</body>
+</html>
